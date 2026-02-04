@@ -285,3 +285,43 @@ input[type="number"]:focus {
         transform: translateY(0);
     }
 }
+
+#resource-summary {
+    position: absolute;
+    top: 100px;
+    right: 2rem;
+    width: 300px;
+    padding: 1.5rem;
+    background: rgba(20, 25, 35, 0.9);
+    z-index: 10;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+#resource-summary h2 {
+    font-family: var(--font-heading);
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.resource-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.2rem;
+}
+
+.resource-item span:first-child {
+    color: var(--text-secondary);
+}
+
+.resource-item span:last-child {
+    font-family: var(--font-heading);
+    color: #10b981;
+}
