@@ -1,0 +1,287 @@
+:root {
+    --bg-color: #0d0d12;
+    --text-primary: #e0e6ed;
+    --text-secondary: #94a3b8;
+    --accent-color: #00e5ff;
+    /* Cyan/Tech Blue */
+    --accent-glow: rgba(0, 229, 255, 0.4);
+    --panel-bg: rgba(20, 25, 35, 0.7);
+    --panel-border: rgba(255, 255, 255, 0.1);
+    --font-heading: 'Share Tech Mono', monospace;
+    --font-body: 'Outfit', sans-serif;
+    --node-bg: #1e293b;
+    --node-stroke: #334155;
+    --link-stroke: #475569;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    /* Important for nested flex scrolling/sizing */
+}
+
+header {
+    margin-bottom: 2rem;
+    text-align: center;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+header h1 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.controls {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    animation: fadeIn 1s ease-out;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.controls label {
+    font-family: var(--font-heading);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+.select-wrapper {
+    position: relative;
+    width: 250px;
+}
+
+.select-wrapper.mini {
+    width: 160px;
+}
+
+.select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+select {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    appearance: none;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:hover,
+select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    outline: none;
+}
+
+input[type="number"] {
+    width: 120px;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    color: var(--accent-color);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="number"]:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+#tree-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    /* D3 handles zoom/pan */
+    animation: fadeInUp 1s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-state {
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+/* D3 Chart Styles */
+.node circle {
+    fill: var(--node-bg);
+    stroke: var(--accent-color);
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.node text {
+    font-family: var(--font-body);
+    font-size: 12px;
+    fill: var(--text-primary);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.node--internal circle {
+    fill: #0f172a;
+}
+
+.link {
+    fill: none;
+    stroke: var(--link-stroke);
+    stroke-width: 1.5px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.node:hover circle {
+    fill: var(--accent-color);
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+    cursor: pointer;
+}
+
+.node:hover~.link,
+.link:hover {
+    stroke: var(--accent-color);
+    opacity: 1;
+    stroke-width: 2px;
+}
+
+.rate-label {
+    fill: #f8fafc;
+    font-size: 10px;
+}
+
+.link-label {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    fill: var(--accent-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+}
+
+.machine-label {
+    font-size: 9px;
+    fill: var(--text-secondary);
+    font-style: italic;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
